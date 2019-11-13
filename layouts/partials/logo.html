@@ -1,18 +1,11 @@
 <div class="logo">
 
+    {{ $pagelink := $.Site.BaseURL }}
     <span class="logo__mark">></span>
     <span class="logo__span">
-        <a class="logo__text" href="{{ if .Site.Params.Logo.LogoHomeLink }}{{ .Site.Params.Logo.LogoHomeLink }}{{else}}{{ .Site.BaseURL }}{{ end }}" style="text-decoration: none;">
-            {{ with .Site.Params.Logo.logoText }}{{ .}}{{ else }}hello{{ end }}
-        </a> 
-        {{ range (split .RelPermalink "/")}}
-            {{ if (printf .) ne "" }}
-                <a class="logo__text" href="{{ (printf "%s%s" $.Site.BaseURL .) }}" style="text-decoration: none;">
-                    {{ (printf "/%s" .) }}
-                <a/>
-            {{ end }}
-        {{ end }}
-    </span>
-    <span class="logo__cursor" style="{{ with .Site.Params.Logo.logoColor }}background-color:{{ . }}{{ end }}"></span>
+        <a class="logo__text" href="{{ if .Site.Params.Logo.LogoHomeLink }}{{ .Site.Params.Logo.LogoHomeLink }}{{else}}{{ .Site.BaseURL }}{{ end }}" style="text-decoration: none;">{{ .Site.Params.Logo.logoText }}</a>{{ range (split .RelPermalink "/")}}{{ if (printf .) ne "" and (printf .) ne " "}}{{ $pagelink = (printf "%s%s/" $pagelink .) }}<a class="logo__text" href="{{ $pagelink }}" style="text-decoration: none;">{{(printf "/%s" .)}}</a>{{ end }}{{ end }}</span>
+    <span
+        class="logo__cursor"
+        style="{{ with .Site.Params.Logo.logoColor }}background-color:{{ . }}{{ end }}"></span>
 </div>
 
