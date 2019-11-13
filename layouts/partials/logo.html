@@ -1,11 +1,18 @@
-<a href="{{ if .Site.Params.Logo.LogoHomeLink }}{{ .Site.Params.Logo.LogoHomeLink }}{{else}}{{ .Site.BaseURL }}{{ end }}" style="text-decoration: none;">
-    <div class="logo">
-        {{ if .Site.Params.Logo.path }}
-            <img src="{{ .Site.Params.Logo.path }}" alt="{{ .Site.Params.Logo.alt }}" />
-        {{ else }}
-            <span class="logo__mark">></span>
-            <span class="logo__text">{{ with .Site.Params.Logo.logoText }}{{ . }}{{ else }}hello{{ end }}</span>
-            <span class="logo__cursor" style="{{ with .Site.Params.Logo.logoColor }}background-color:{{ . }}{{ end }}"></span>
+<div class="logo">
+
+    <span class="logo__mark">></span>
+    <span class="logo__span">
+        <a class="logo__text" href="{{ if .Site.Params.Logo.LogoHomeLink }}{{ .Site.Params.Logo.LogoHomeLink }}{{else}}{{ .Site.BaseURL }}{{ end }}" style="text-decoration: none;">
+            {{ with .Site.Params.Logo.logoText }}{{ .}}{{ else }}hello{{ end }}
+        </a> 
+        {{ range (split .RelPermalink "/")}}
+            {{ if (printf .) ne "" }}
+                <a class="logo__text" href="{{ (printf "%s%s" $.Site.BaseURL .) }}" style="text-decoration: none;">
+                    {{ (printf "/%s" .) }}
+                <a/>
+            {{ end }}
         {{ end }}
-    </div>
-</a>
+    </span>
+    <span class="logo__cursor" style="{{ with .Site.Params.Logo.logoColor }}background-color:{{ . }}{{ end }}"></span>
+</div>
+
