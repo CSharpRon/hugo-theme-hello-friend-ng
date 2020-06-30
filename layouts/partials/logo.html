@@ -3,9 +3,19 @@
     {{ $pagelink := $.Site.BaseURL }}
     <span class="logo__mark">></span>
     <span class="logo__span">
-        <a class="logo__text" href="{{ if .Site.Params.Logo.LogoHomeLink }}{{ .Site.Params.Logo.LogoHomeLink }}{{else}}{{ .Site.BaseURL }}{{ end }}" style="text-decoration: none;">{{ .Site.Params.Logo.logoText }}</a>{{ range (split .RelPermalink "/")}}{{ if (printf .) ne "" and (printf .) ne " "}}{{ $pagelink = (printf "%s%s/" $pagelink .) }}<a class="logo__text" href="{{ $pagelink }}" style="text-decoration: none;">{{(printf "/%s" .)}}</a>{{ end }}{{ end }}</span>
+
+        <!-- logoText specified in config.toml -->
+        <a class="logo__text" href="{{ if .Site.Params.Logo.LogoHomeLink }}{{ .Site.Params.Logo.LogoHomeLink }}{{else}}{{ .Site.BaseURL }}{{ end }}" style="text-decoration: none;">
+            {{ .Site.Params.Logo.logoText }}</a>
+
+        <!-- This code appends the current path to the header (like breadcrumbs)-->
+        {{range (split .RelPermalink "/")}}
+            {{ if and (ne (printf .) "") (ne (printf .) " ")}}
+                {{ $pagelink = (printf "%s%s/" $pagelink .) }}<a class="logo__text" href="{{ $pagelink }}" style="text-decoration: none;">{{(printf "/%s" .)}}</a>
+            {{ end }}
+        {{ end }}
+    </span>
     <span
         class="logo__cursor"
         style="{{ with .Site.Params.Logo.logoColor }}background-color:{{ . }}{{ end }}"></span>
-</div>
-
+</div> 
